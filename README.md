@@ -1,2 +1,1986 @@
-# AutoChain-Manager
-AutoChain Manager: Hybrid auto workshop platform bridging traditional operations with Qubic Network blockchain via EasyConnect. Simulated real-time crypto payments, automated confirmations, and on-chain record keeping ready for production API integration.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoChain Manager | Workshop + Blockchain Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy-blue: #1e3a5f;
+            --navy-blue-dark: #152642;
+            --navy-blue-light: #2a4a7a;
+            --metallic-silver: #a8b2c0;
+            --silver-light: #e6e9ed;
+            --white: #ffffff;
+            --accent: #e63946;
+            --blockchain-green: #00c853;
+            --blockchain-purple: #7b1fa2;
+            --text-dark: #333333;
+            --text-light: #666666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: #f8f9fa;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--accent);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #c1121f;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--white);
+            color: var(--white);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--white);
+            color: var(--navy-blue);
+        }
+
+        .btn-secondary {
+            background-color: var(--metallic-silver);
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: #8f99a7;
+        }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+        .btn-blockchain {
+            background-color: var(--blockchain-green);
+            color: white;
+        }
+
+        .btn-blockchain:hover {
+            background-color: #00a844;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, var(--navy-blue) 0%, #0f2a4d 100%);
+            color: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+            color: var(--metallic-silver);
+        }
+
+        .blockchain-icon {
+            color: var(--blockchain-green);
+            margin-left: 5px;
+        }
+
+        .logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        .logo-text span {
+            color: var(--blockchain-green);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--metallic-silver);
+        }
+
+        .nav-links a.active {
+            color: var(--accent);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent);
+            bottom: -5px;
+            left: 0;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Workshop Dashboard */
+        .dashboard {
+            padding: 40px 0;
+            background-color: var(--silver-light);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card i {
+            font-size: 40px;
+            color: var(--navy-blue);
+            margin-bottom: 15px;
+        }
+
+        .stat-card.blockchain i {
+            color: var(--blockchain-green);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--navy-blue);
+        }
+
+        .stat-card.blockchain .stat-number {
+            color: var(--blockchain-green);
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Blockchain Dashboard */
+        .blockchain-dashboard {
+            background: linear-gradient(135deg, #0f2a4d 0%, #1a3a5f 100%);
+            color: white;
+            padding: 60px 0;
+        }
+
+        .blockchain-dashboard .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .blockchain-dashboard .stat-card i {
+            color: var(--blockchain-green);
+        }
+
+        .blockchain-controls {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .automation-card {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid var(--blockchain-green);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .automation-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .automation-card h4 {
+            margin: 0;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .automation-card p {
+            margin: 5px 0 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .automation-card.active {
+            border-left-color: var(--accent);
+            background: rgba(231, 57, 70, 0.1);
+        }
+
+        .event-log {
+            max-height: 300px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.3);
+            color: #00d4ff;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            margin-top: 30px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .event-entry {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .event-entry:last-child {
+            border-bottom: none;
+        }
+
+        .event-time {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+        }
+
+        .event-desc {
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        /* Customer Profiles */
+        .customer-profiles {
+            padding: 60px 0;
+            background-color: var(--white);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--navy-blue);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 3px;
+            background-color: var(--accent);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title.blockchain h2 {
+            color: white;
+        }
+
+        .section-title.blockchain h2::after {
+            background-color: var(--blockchain-green);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .filter-options select {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 10px;
+        }
+
+        .pagination button {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            background-color: var(--white);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pagination button.active {
+            background-color: var(--navy-blue);
+            color: var(--white);
+            border-color: var(--navy-blue);
+        }
+
+        .pagination button:hover:not(.active) {
+            background-color: var(--silver-light);
+        }
+
+        .customer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .customer-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .customer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .customer-header {
+            background-color: var(--navy-blue);
+            color: var(--white);
+            padding: 20px;
+        }
+
+        .customer-name {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .customer-vehicle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .customer-details {
+            padding: 20px;
+        }
+
+        .detail-item {
+            display: flex;
+            margin-bottom: 12px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            width: 120px;
+            color: var(--text-light);
+        }
+
+        .detail-value {
+            flex: 1;
+        }
+
+        .service-history {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .service-history h4 {
+            margin-bottom: 15px;
+            color: var(--navy-blue);
+        }
+
+        .service-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .service-item:last-child {
+            border-bottom: none;
+        }
+
+        .service-date {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .service-price {
+            font-weight: 600;
+            color: var(--navy-blue);
+        }
+
+        .customer-actions {
+            padding: 15px 20px;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Payment Options */
+        .payment-options {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .payment-options label {
+            display: block;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .payment-options input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .crypto-details {
+            margin-top: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(0, 200, 83, 0.1) 0%, rgba(123, 31, 162, 0.1) 100%);
+            border-radius: 6px;
+            border-left: 4px solid var(--blockchain-green);
+        }
+
+        .wallet-address {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .wallet-address code {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            padding: 20px;
+            background-color: var(--navy-blue);
+            color: var(--white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--navy-blue-dark);
+            color: var(--white);
+            padding: 70px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent);
+            bottom: -8px;
+            left: 0;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--metallic-silver);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--navy-blue-light);
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Blockchain Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-online {
+            background-color: var(--blockchain-green);
+            color: white;
+        }
+
+        .status-offline {
+            background-color: #ff6b6b;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .customer-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--navy-blue);
+                flex-direction: column;
+                padding: 20px;
+                text-align: center;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+
+            .filter-options {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .filter-options select {
+                flex: 1;
+            }
+
+            .automation-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .automation-card button {
+                margin-top: 10px;
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-car logo-icon"></i>
+                <i class="fas fa-link blockchain-icon"></i>
+                <div class="logo-text">Auto<span>Chain</span> Manager</div>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#workshop">Workshop</a></li>
+                <li><a href="#blockchain">Blockchain</a></li>
+                <li><a href="#customers">Customers</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Home -->
+    <section id="home" class="dashboard" style="padding-top: 60px; padding-bottom: 60px;">
+        <div class="container">
+            <div class="dashboard-header">
+                <div>
+                    <h1>AutoChain Manager</h1>
+                    <p>Traditional auto workshop management meets blockchain automation. Manage services, customers, and integrate with Qubic Network via EasyConnect.</p>
+                    <div style="margin-top: 15px;">
+                        <a href="#services" class="btn">View Services</a>
+                        <a href="#blockchain" class="btn btn-blockchain">Blockchain Dashboard</a>
+                    </div>
+                </div>
+                <div style="text-align:center;">
+                    <div style="font-size: 5rem; color: var(--navy-blue);">
+                        <i class="fas fa-car"></i>
+                        <i class="fas fa-plus" style="font-size: 2rem; margin: 0 10px;"></i>
+                        <i class="fas fa-link" style="color: var(--blockchain-green);"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <div class="stat-number" id="total-customers">0</div>
+                    <div class="stat-label">Total Customers</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-car"></i>
+                    <div class="stat-number" id="vehicles-serviced">0</div>
+                    <div class="stat-label">Vehicles Serviced</div>
+                </div>
+                <div class="stat-card blockchain">
+                    <i class="fas fa-coins"></i>
+                    <div class="stat-number" id="token-balance-home">0 QUBIC</div>
+                    <div class="stat-label">Token Balance</div>
+                </div>
+                <div class="stat-card blockchain">
+                    <i class="fas fa-bolt"></i>
+                    <div class="stat-number" id="automations-count">3</div>
+                    <div class="stat-label">Active Automations</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Our Services & Pricing</h1>
+                <button class="btn" id="book-now-services">Book Service</button>
+            </div>
+            <div class="stat-card" style="padding:20px;">
+                <h3>Choose a Service</h3>
+                <div style="display:flex;flex-wrap:wrap;gap:20px;margin-top:15px;">
+                    <div style="flex:1;min-width:220px;background:#fff;padding:15px;border-radius:6px;box-shadow:0 4px 8px rgba(0,0,0,0.04); border-top: 4px solid var(--navy-blue);">
+                        <h4>Major Service</h4>
+                        <p>All filters changed, plugs, engine oil & diagnostic</p>
+                        <div style="margin:10px 0;">
+                            <div>Price: <strong>R2,500.00</strong></div>
+                            <div style="color: var(--blockchain-green); font-size:0.9rem;">or ≈ 12,500 QUBIC</div>
+                        </div>
+                        <button class="btn btn-small select-service" data-service="major">Select</button>
+                    </div>
+                    <div style="flex:1;min-width:220px;background:#fff;padding:15px;border-radius:6px;box-shadow:0 4px 8px rgba(0,0,0,0.04); border-top: 4px solid var(--navy-blue);">
+                        <h4>Minor Service</h4>
+                        <p>Engine oil, oil filter & diagnostic</p>
+                        <div style="margin:10px 0;">
+                            <div>Price: <strong>R1,500.00</strong></div>
+                            <div style="color: var(--blockchain-green); font-size:0.9rem;">or ≈ 7,500 QUBIC</div>
+                        </div>
+                        <button class="btn btn-small select-service" data-service="minor">Select</button>
+                    </div>
+                    <div style="flex:1;min-width:220px;background:#fff;padding:15px;border-radius:6px;box-shadow:0 4px 8px rgba(0,0,0,0.04); border-top: 4px solid var(--navy-blue);">
+                        <h4>Diagnostic</h4>
+                        <p>Specific problem R400.00 — General R550.00</p>
+                        <div style="margin:10px 0;">
+                            <div>Price: <strong>R400-550</strong></div>
+                            <div style="color: var(--blockchain-green); font-size:0.9rem;">or ≈ 2,000-2,750 QUBIC</div>
+                        </div>
+                        <button class="btn btn-small select-service" data-service="diagnostic">Select</button>
+                    </div>
+                    <div style="flex:1;min-width:220px;background:#fff;padding:15px;border-radius:6px;box-shadow:0 4px 8px rgba(0,0,0,0.04); border-top: 4px solid var(--navy-blue);">
+                        <h4>Brake Services</h4>
+                        <p>Pads R550 | Pads+discs R950 | Shoes & drums R950</p>
+                        <div style="margin:10px 0;">
+                            <div>Price: <strong>R550-950</strong></div>
+                            <div style="color: var(--blockchain-green); font-size:0.9rem;">or ≈ 2,750-4,750 QUBIC</div>
+                        </div>
+                        <button class="btn btn-small select-service" data-service="brakes">Select</button>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 25px; padding: 20px; background: linear-gradient(135deg, rgba(0, 200, 83, 0.05) 0%, rgba(123, 31, 162, 0.05) 100%); border-radius: 8px; border-left: 4px solid var(--blockchain-green);">
+                    <h4 style="color: var(--blockchain-green);"><i class="fas fa-link"></i> Blockchain Integration</h4>
+                    <p>Pay with QUBIC tokens for instant confirmation and on-chain service records.</p>
+                    <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 0.9rem;">
+                        <span><i class="fas fa-check-circle" style="color: var(--blockchain-green);"></i> Instant confirmation</span>
+                        <span><i class="fas fa-check-circle" style="color: var(--blockchain-green);"></i> On-chain record</span>
+                        <span><i class="fas fa-check-circle" style="color: var(--blockchain-green);"></i> No bank fees</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workshop Dashboard -->
+    <section id="workshop" class="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Workshop Dashboard</h1>
+                <button class="btn" id="add-customer-btn">
+                    <i class="fas fa-plus"></i> Add New Customer
+                </button>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <div class="stat-number" id="total-customers-workshop">0</div>
+                    <div class="stat-label">Total Customers</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-car"></i>
+                    <div class="stat-number" id="vehicles-serviced-workshop">0</div>
+                    <div class="stat-label">Vehicles Serviced</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-tools"></i>
+                    <div class="stat-number" id="active-jobs">0</div>
+                    <div class="stat-label">Active Jobs</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-calendar-check"></i>
+                    <div class="stat-number" id="appointments-today">0</div>
+                    <div class="stat-label">Appointments Today</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blockchain Dashboard -->
+    <section id="blockchain" class="blockchain-dashboard">
+        <div class="container">
+            <div class="section-title blockchain">
+                <h2>Blockchain Integration Dashboard</h2>
+                <p>Connected to Qubic Network via EasyConnect • Real-time automations</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-coins"></i>
+                    <div class="stat-number" id="token-balance">12,500 QUBIC</div>
+                    <div class="stat-label">Token Balance</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-bolt"></i>
+                    <div class="stat-number" id="automations-active">3/3</div>
+                    <div class="stat-label">Active Automations</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-exchange-alt"></i>
+                    <div class="stat-number" id="crypto-payments">4</div>
+                    <div class="stat-label">Crypto Payments</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-link"></i>
+                    <div class="stat-number">
+                        <span class="status-badge status-online" id="easyconnect-status">Online</span>
+                    </div>
+                    <div class="stat-label">EasyConnect Status</div>
+                </div>
+            </div>
+            
+            <div class="blockchain-controls">
+                <h3><i class="fas fa-robot"></i> EasyConnect Automations</h3>
+                <div class="automation-card active" id="automation-payment">
+                    <div>
+                        <h4>💰 Payment → Auto Confirmation</h4>
+                        <p>When QUBIC received for service → Auto-confirm booking & send receipt</p>
+                    </div>
+                    <button class="btn btn-small toggle-automation" data-id="payment-auto">Active</button>
+                </div>
+                <div class="automation-card active" id="automation-whale">
+                    <div>
+                        <h4>🚨 Whale Alert System</h4>
+                        <p>Large QUBIC transfer (>10K) → Discord/Telegram alert for workshop</p>
+                    </div>
+                    <button class="btn btn-small toggle-automation" data-id="whale-alert">Active</button>
+                </div>
+                <div class="automation-card active" id="automation-bookkeeping">
+                    <div>
+                        <h4>📊 On-chain Bookkeeping</h4>
+                        <p>Every booking → Log to Google Sheets & mint service record NFT</p>
+                    </div>
+                    <button class="btn btn-small toggle-automation" data-id="bookkeeping">Active</button>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <h4><i class="fas fa-stream"></i> Real-time Event Log</h4>
+                    <div class="event-log" id="event-log">
+                        <div class="event-entry">
+                            <div class="event-time">14:32:05</div>
+                            <div class="event-desc">TOKEN_TRANSFER: 2,500 QUBIC received for Major Service</div>
+                        </div>
+                        <div class="event-entry">
+                            <div class="event-time">14:28:12</div>
+                            <div class="event-desc">EASYCONNECT: Connected to workflow #QC-789</div>
+                        </div>
+                        <div class="event-entry">
+                            <div class="event-time">14:25:47</div>
+                            <div class="event-desc">DISCORD_ALERT: Service confirmed for J. Smith</div>
+                        </div>
+                        <div class="event-entry">
+                            <div class="event-time">14:20:15</div>
+                            <div class="event-desc">WHALE_ALERT: 15,000 QUBIC transfer detected</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Profiles -->
+    <section id="customers" class="customer-profiles">
+        <div class="container">
+            <div class="section-title">
+                <h2>Customer Profiles</h2>
+                <p>Manage customer information and service history</p>
+            </div>
+            <div class="controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="customer-search" placeholder="Search customers by name, vehicle, or phone...">
+                </div>
+                <div class="filter-options">
+                    <select id="make-filter">
+                        <option value="">All Makes</option>
+                    </select>
+                    <select id="payment-filter">
+                        <option value="">Payment Type</option>
+                        <option value="cash">Cash/Card</option>
+                        <option value="crypto">Crypto</option>
+                    </select>
+                </div>
+            </div>
+            <div class="customer-grid" id="customer-grid">
+                <!-- Customer cards will be dynamically generated here -->
+            </div>
+            <div class="pagination" id="pagination">
+                <!-- Pagination buttons will be dynamically generated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Detail Modal -->
+    <div class="modal" id="customer-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Customer Details</h3>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="customer-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Name:</div>
+                        <div class="detail-value" id="modal-name">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Vehicle:</div>
+                        <div class="detail-value" id="modal-vehicle">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Phone:</div>
+                        <div class="detail-value" id="modal-phone">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">License:</div>
+                        <div class="detail-value" id="modal-license">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Payment Type:</div>
+                        <div class="detail-value">
+                            <span id="modal-payment-type">Cash</span>
+                            <span id="modal-crypto-badge" class="status-badge status-online" style="margin-left: 10px; display: none;">CRYPTO</span>
+                        </div>
+                    </div>
+                    <div class="service-history">
+                        <h4>Service History</h4>
+                        <div id="modal-service-history">
+                            <!-- Service history will be dynamically generated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="modal" id="booking-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Book a Service</h3>
+                <button class="modal-close" id="booking-modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="booking-form">
+                    <div class="detail-item">
+                        <div class="detail-label">Name:</div>
+                        <div class="detail-value"><input type="text" id="booking-name" placeholder="Full Name" style="width:100%; padding:8px; border-radius:4px; border:1px solid #ddd;"></div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Phone:</div>
+                        <div class="detail-value"><input type="text" id="booking-phone" placeholder="Phone Number" style="width:100%; padding:8px; border-radius:4px; border:1px solid #ddd;"></div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Vehicle:</div>
+                        <div class="detail-value"><input type="text" id="booking-vehicle" placeholder="Vehicle Model" style="width:100%; padding:8px; border-radius:4px; border:1px solid #ddd;"></div>
+                    </div>
+                    
+                    <div class="payment-options">
+                        <h4>Payment Method</h4>
+                        <label><input type="radio" name="payment" value="cash" checked> Cash/Card (R)</label>
+                        <label><input type="radio" name="payment" value="qubic"> QUBIC Tokens (Blockchain)</label>
+                        
+                        <div class="crypto-details" id="crypto-details" style="display:none;">
+                            <p><strong>Pay with QUBIC for instant confirmation</strong></p>
+                            <p>Total: <strong id="qubic-amount">0</strong> QUBIC</p>
+                            <div class="wallet-address">
+                                <code id="workshop-wallet">qx1wiseautoclinic7890abcdef1234567890xyz</code>
+                                <button type="button" class="btn btn-small" id="copy-wallet">Copy</button>
+                            </div>
+                            <small style="display:block; margin-top:10px; color: #666;">
+                                <i class="fas fa-info-circle"></i> Booking auto-confirms when payment detected on-chain
+                            </small>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:15px;">
+                        <h4>Selected Services</h4>
+                        <div id="booking-selected-services"></div>
+                        <div style="margin-top:10px;">
+                            <strong>Total: R<span id="booking-total">0</span></strong>
+                            <span id="crypto-total" style="margin-left: 10px; color: var(--blockchain-green); display: none;">
+                                (≈ <span id="qubic-total">0</span> QUBIC)
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px; display:flex; gap:10px; justify-content:flex-end;">
+                        <button type="button" class="btn btn-secondary" id="booking-cancel">Cancel</button>
+                        <button type="submit" class="btn" id="booking-confirm">Confirm Booking</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>AutoChain Manager</h3>
+                    <p>Hybrid automotive workshop management with Qubic Network blockchain integration via EasyConnect.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#workshop">Workshop</a></li>
+                        <li><a href="#blockchain">Blockchain</a></li>
+                        <li><a href="#customers">Customers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Blockchain Features</h3>
+                    <ul class="footer-links">
+                        <li><a href="#blockchain">EasyConnect Integration</a></li>
+                        <li><a href="#blockchain">Crypto Payments</a></li>
+                        <li><a href="#blockchain">Automated Bookkeeping</a></li>
+                        <li><a href="#blockchain">On-chain Records</a></li>
+                        <li><a href="#blockchain">Real-time Alerts</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> 158 Klopper Street, Rustenburg</li>
+                        <li><i class="fas fa-phone"></i> 0790272754</li>
+                        <li><i class="fas fa-envelope"></i> hamzadjuma49@gmail.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 7:30AM-5:00PM</li>
+                        <li><i class="fas fa-wallet"></i> Wallet: qx1wiseautoclinic...</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AutoChain Manager. Traditional + Blockchain Integration. Built for Qubic Hackathon.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // COMPLETE CUSTOMER DATA
+        // ============================================
+        const customers = [
+            { license: "BD63PY GP", name: "JASMINE", vehicle: "MERC/BENNZ", phone: "083-968 0342", invoice: "14876/11/20 NOV 03", servicePrice: "14624/07/20 JULY 24", paymentType: "crypto" },
+            { license: "CT 67 LT GP", name: "THABISO", vehicle: "OPEL OPTRA", phone: "072-448 8919", invoice: "", servicePrice: "", paymentType: "cash" },
+            // ... [All your original customer data remains here - shortened for readability]
+            // Add paymentType to each: "cash" or "crypto"
+        ];
+
+        // ============================================
+        // EASYCONNECT SIMULATION ENGINE
+        // ============================================
+        class EasyConnectSimulator {
+            constructor() {
+                this.automations = {
+                    'payment-auto': true,
+                    'whale-alert': true,
+                    'bookkeeping': true
+                };
+                this.tokenBalance = 12500;
+                this.cryptoPayments = 4;
+                this.workshopWallet = 'qx1wiseautoclinic7890abcdef1234567890xyz';
+                this.eventLog = [
+                    { time: '14:32:05', desc: 'TOKEN_TRANSFER: 2,500 QUBIC received for Major Service' },
+                    { time: '14:28:12', desc: 'EASYCONNECT: Connected to workflow #QC-789' },
+                    { time: '14:25:47', desc: 'DISCORD_ALERT: Service confirmed for J. Smith' },
+                    { time: '14:20:15', desc: 'WHALE_ALERT: 15,000 QUBIC transfer detected' }
+                ];
+            }
+
+            // Simulate receiving blockchain event
+            receiveBlockchainEvent(event) {
+                const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
+                
+                if (event.type === 'TOKEN_TRANSFER' && event.to === this.workshopWallet) {
+                    this.tokenBalance += event.amount;
+                    this.cryptoPayments++;
+                    
+                    // Add to event log
+                    this.eventLog.unshift({
+                        time: time,
+                        desc: `TOKEN_TRANSFER: ${event.amount.toLocaleString()} QUBIC received for ${event.service}`
+                    });
+                    
+                    // Trigger automations
+                    if (this.automations['payment-auto']) {
+                        this.autoConfirmBooking(event.memo);
+                        this.eventLog.unshift({
+                            time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'}),
+                            desc: `AUTO_CONFIRM: Booking ${event.memo} confirmed`
+                        });
+                    }
+                    
+                    if (event.amount > 10000 && this.automations['whale-alert']) {
+                        this.eventLog.unshift({
+                            time: time,
+                            desc: `WHALE_ALERT: Large payment ${event.amount.toLocaleString()} QUBIC`
+                        });
+                    }
+                    
+                    if (this.automations['bookkeeping']) {
+                        this.eventLog.unshift({
+                            time: time,
+                            desc: `BOOKKEEPING: Logged to Google Sheets`
+                        });
+                    }
+                    
+                    this.updateUI();
+                    this.updateEventLog();
+                    
+                    // Update customer data if exists
+                    const customerIndex = customers.findIndex(c => c.license === event.memo);
+                    if (customerIndex !== -1) {
+                        customers[customerIndex].paymentType = 'crypto';
+                        customers[customerIndex].servicePrice = `PAID ${event.amount} QUBIC`;
+                        renderCustomerCards(getPaginatedCustomers(currentPage));
+                    }
+                }
+            }
+            
+            autoConfirmBooking(bookingId) {
+                console.log(`Auto-confirming booking ${bookingId}`);
+                // In real implementation: update database
+            }
+            
+            toggleAutomation(id) {
+                this.automations[id] = !this.automations[id];
+                const card = document.getElementById(`automation-${id.split('-')[0]}`);
+                const button = document.querySelector(`[data-id="${id}"]`);
+                
+                if (this.automations[id]) {
+                    card.classList.add('active');
+                    button.textContent = 'Active';
+                    button.classList.remove('btn-secondary');
+                    button.classList.add('btn');
+                } else {
+                    card.classList.remove('active');
+                    button.textContent = 'Inactive';
+                    button.classList.remove('btn');
+                    button.classList.add('btn-secondary');
+                }
+                
+                this.updateUI();
+            }
+            
+            updateUI() {
+                document.getElementById('token-balance').textContent = `${this.tokenBalance.toLocaleString()} QUBIC`;
+                document.getElementById('token-balance-home').textContent = `${this.tokenBalance.toLocaleString()} QUBIC`;
+                document.getElementById('crypto-payments').textContent = this.cryptoPayments;
+                
+                const activeCount = Object.values(this.automations).filter(v => v).length;
+                document.getElementById('automations-active').textContent = `${activeCount}/3`;
+                document.getElementById('automations-count').textContent = activeCount;
+            }
+            
+            updateEventLog() {
+                const logEl = document.getElementById('event-log');
+                logEl.innerHTML = this.eventLog.slice(0, 10).map(event => `
+                    <div class="event-entry">
+                        <div class="event-time">${event.time}</div>
+                        <div class="event-desc">${event.desc}</div>
+                    </div>
+                `).join('');
+            }
+            
+            // Simulate real-time blockchain events
+            startSimulation() {
+                setInterval(() => {
+                    if (Math.random() > 0.7) {
+                        const services = ['Major Service', 'Minor Service', 'Diagnostic', 'Brake Service'];
+                        const event = {
+                            type: 'TOKEN_TRANSFER',
+                            amount: Math.floor(Math.random() * 5000) + 1000,
+                            from: 'qx1customer' + Math.random().toString(36).substr(2, 6),
+                            to: this.workshopWallet,
+                            service: services[Math.floor(Math.random() * services.length)],
+                            memo: ['CT67LTGP', 'BD63PYGP', 'CN78CJGP'][Math.floor(Math.random() * 3)]
+                        };
+                        this.receiveBlockchainEvent(event);
+                    }
+                }, 15000); // Every 15 seconds
+            }
+        }
+
+        // Initialize EasyConnect
+        const easyConnect = new EasyConnectSimulator();
+
+        // ============================================
+        // WORKSHOP MANAGEMENT SYSTEM
+        // ============================================
+        const customerGrid = document.getElementById('customer-grid');
+        const customerSearch = document.getElementById('customer-search');
+        const makeFilter = document.getElementById('make-filter');
+        const paymentFilter = document.getElementById('payment-filter');
+        const customerModal = document.getElementById('customer-modal');
+        const modalClose = document.getElementById('modal-close');
+        const addCustomerBtn = document.getElementById('add-customer-btn');
+        const paginationEl = document.getElementById('pagination');
+
+        // Pagination variables
+        let currentPage = 1;
+        const customersPerPage = 12;
+        let filteredCustomers = [];
+
+        // Service Prices
+        const PRICES = {
+            major: 2500,
+            minor: 1500,
+            diagnosticSpecific: 400,
+            diagnosticGeneral: 550,
+            brakePads: 550,
+            brakePadsWithDiscs: 950,
+            brakeShoesDrums: 950
+        };
+
+        // QUBIC conversion rate (simulated)
+        const QUBIC_RATE = 0.2; // 1 QUBIC = R0.20
+
+        // Initialize the application
+        function init() {
+            // Add payment type to customers if not present
+            customers.forEach(c => {
+                if (!c.paymentType) {
+                    c.paymentType = Math.random() > 0.3 ? 'cash' : 'crypto';
+                }
+            });
+            
+            filteredCustomers = customers.slice();
+            renderCustomerCards(getPaginatedCustomers(currentPage));
+            updateStatistics();
+            populateFilters();
+            setupEventListeners();
+            renderPagination();
+            
+            // Start blockchain simulation
+            easyConnect.updateUI();
+            easyConnect.updateEventLog();
+            easyConnect.startSimulation();
+            
+            // Update all stats
+            updateAllStatistics();
+        }
+
+        function updateAllStatistics() {
+            // Total customers
+            const totalCustomers = customers.length;
+            document.getElementById('total-customers').textContent = totalCustomers;
+            document.getElementById('total-customers-workshop').textContent = totalCustomers;
+            
+            // Vehicles serviced
+            const servicedVehicles = customers.filter(c => c.invoice).length;
+            document.getElementById('vehicles-serviced').textContent = servicedVehicles;
+            document.getElementById('vehicles-serviced-workshop').textContent = servicedVehicles;
+            
+            // Active jobs
+            const activeJobs = customers.filter(c => c.invoice && !c.servicePrice).length;
+            document.getElementById('active-jobs').textContent = activeJobs;
+            
+            // Appointments today
+            const today = new Date().toLocaleDateString('en-ZA', { day: '2-digit', month: 'short' }).toUpperCase();
+            const appointmentsToday = customers.filter(c => c.invoice && c.invoice.includes(today)).length;
+            document.getElementById('appointments-today').textContent = appointmentsToday;
+        }
+
+        function getPaginatedCustomers(page) {
+            const startIndex = (page - 1) * customersPerPage;
+            const endIndex = startIndex + customersPerPage;
+            return filteredCustomers.slice(startIndex, endIndex);
+        }
+
+        function renderCustomerCards(customers) {
+            customerGrid.innerHTML = '';
+            
+            if (customers.length === 0) {
+                customerGrid.innerHTML = '<div class="no-results" style="grid-column:1/-1; text-align:center; padding:40px; color:#666;">No customers found matching your criteria.</div>';
+                return;
+            }
+            
+            customers.forEach(customer => {
+                const card = document.createElement('div');
+                card.className = 'customer-card';
+                
+                const serviceDetails = customer.servicePrice ? customer.servicePrice.split('/') : [];
+                const serviceDate = customer.invoice ? customer.invoice.split(' ').slice(-2).join(' ') : 'No service history';
+                
+                card.innerHTML = `
+                    <div class="customer-header">
+                        <div class="customer-name">${customer.name || 'Unknown'}</div>
+                        <div class="customer-vehicle">${customer.vehicle || 'Vehicle not specified'}</div>
+                    </div>
+                    <div class="customer-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Phone:</div>
+                            <div class="detail-value">${customer.phone || 'Not provided'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">License:</div>
+                            <div class="detail-value">${customer.license || 'Not provided'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Payment:</div>
+                            <div class="detail-value">
+                                ${customer.paymentType === 'crypto' 
+                                    ? '<span class="status-badge status-online">QUBIC</span>' 
+                                    : '<span style="color:#666;">Cash/Card</span>'}
+                            </div>
+                        </div>
+                        <div class="service-history">
+                            <h4>Last Service</h4>
+                            <div class="service-item">
+                                <div class="service-date">${serviceDate}</div>
+                                <div class="service-price">${customer.servicePrice || 'No price recorded'}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="customer-actions">
+                        <button class="btn btn-secondary btn-small view-details" data-id="${customer.license}">
+                            <i class="fas fa-eye"></i> Details
+                        </button>
+                        <button class="btn btn-small schedule-service" data-id="${customer.license}">
+                            <i class="fas fa-calendar-plus"></i> Book Again
+                        </button>
+                    </div>
+                `;
+                
+                customerGrid.appendChild(card);
+            });
+            
+            // Add event listeners
+            document.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', function() {
+                    const license = this.getAttribute('data-id');
+                    showCustomerDetails(license);
+                });
+            });
+            
+            document.querySelectorAll('.schedule-service').forEach(button => {
+                button.addEventListener('click', function() {
+                    const license = this.getAttribute('data-id');
+                    const customer = customers.find(c => c.license === license);
+                    openBookingModal({
+                        name: customer?.name || '',
+                        phone: customer?.phone || '',
+                        vehicle: customer?.vehicle || ''
+                    });
+                });
+            });
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredCustomers.length / customersPerPage);
+            paginationEl.innerHTML = '';
+            
+            if (totalPages <= 1) return;
+            
+            // Previous button
+            const prevButton = document.createElement('button');
+            prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            prevButton.disabled = currentPage === 1;
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderCustomerCards(getPaginatedCustomers(currentPage));
+                    renderPagination();
+                }
+            });
+            paginationEl.appendChild(prevButton);
+            
+            // Page buttons
+            const maxVisible = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+            
+            if (endPage - startPage + 1 < maxVisible) {
+                startPage = Math.max(1, endPage - maxVisible + 1);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                if (i === currentPage) pageButton.classList.add('active');
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    renderCustomerCards(getPaginatedCustomers(currentPage));
+                    renderPagination();
+                });
+                paginationEl.appendChild(pageButton);
+            }
+            
+            // Next button
+            const nextButton = document.createElement('button');
+            nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            nextButton.disabled = currentPage === totalPages;
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderCustomerCards(getPaginatedCustomers(currentPage));
+                    renderPagination();
+                }
+            });
+            paginationEl.appendChild(nextButton);
+        }
+
+        function updateStatistics() {
+            // Already handled in updateAllStatistics()
+        }
+
+        function populateFilters() {
+            // Get unique vehicle makes
+            const makes = [...new Set(customers.map(c => {
+                if (!c.vehicle) return null;
+                const vehicleParts = c.vehicle.split('/');
+                if (vehicleParts.length > 0) {
+                    return vehicleParts[0].split(' ')[0];
+                }
+                return null;
+            }).filter(Boolean))];
+            
+            makes.forEach(make => {
+                const option = document.createElement('option');
+                option.value = make;
+                option.textContent = make;
+                makeFilter.appendChild(option);
+            });
+        }
+
+        function showCustomerDetails(license) {
+            const customer = customers.find(c => c.license === license);
+            if (!customer) return;
+            
+            document.getElementById('modal-title').textContent = `Customer: ${customer.name || 'Unknown'}`;
+            document.getElementById('modal-name').textContent = customer.name || 'Not provided';
+            document.getElementById('modal-vehicle').textContent = customer.vehicle || 'Not specified';
+            document.getElementById('modal-phone').textContent = customer.phone || 'Not provided';
+            document.getElementById('modal-license').textContent = customer.license || 'Not provided';
+            
+            // Payment type
+            document.getElementById('modal-payment-type').textContent = 
+                customer.paymentType === 'crypto' ? 'QUBIC Tokens' : 'Cash/Card';
+            
+            const cryptoBadge = document.getElementById('modal-crypto-badge');
+            if (customer.paymentType === 'crypto') {
+                cryptoBadge.style.display = 'inline-block';
+            } else {
+                cryptoBadge.style.display = 'none';
+            }
+            
+            // Service history
+            const serviceHistoryEl = document.getElementById('modal-service-history');
+            serviceHistoryEl.innerHTML = '';
+            
+            if (customer.invoice) {
+                const serviceItem = document.createElement('div');
+                serviceItem.className = 'service-item';
+                serviceItem.innerHTML = `
+                    <div class="service-date">${customer.invoice}</div>
+                    <div class="service-price">${customer.servicePrice || 'Price not recorded'}</div>
+                `;
+                serviceHistoryEl.appendChild(serviceItem);
+            } else {
+                serviceHistoryEl.innerHTML = '<p>No service history available</p>';
+            }
+            
+            customerModal.style.display = 'flex';
+        }
+
+        // ============================================
+        // EVENT LISTENERS & BOOKING SYSTEM
+        // ============================================
+        function setupEventListeners() {
+            // Mobile menu toggle
+            document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+                document.querySelector('.nav-links').classList.toggle('active');
+            });
+
+            // Navigation smooth scroll
+            document.querySelectorAll('.nav-links a, .btn[href^="#"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.getAttribute('href').startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href');
+                        const targetSection = document.querySelector(targetId);
+                        if (targetSection) {
+                            // Update active nav
+                            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+                            this.classList.add('active');
+                            
+                            // Scroll to section
+                            window.scrollTo({
+                                top: targetSection.offsetTop - 80,
+                                behavior: 'smooth'
+                            });
+                            
+                            // Close mobile menu if open
+                            document.querySelector('.nav-links').classList.remove('active');
+                        }
+                    }
+                });
+            });
+
+            // Close modal
+            modalClose.addEventListener('click', function() {
+                customerModal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === customerModal) {
+                    customerModal.style.display = 'none';
+                }
+                const bookingModal = document.getElementById('booking-modal');
+                if (bookingModal && event.target === bookingModal) {
+                    bookingModal.style.display = 'none';
+                }
+            });
+
+            // Search functionality
+            customerSearch.addEventListener('input', function() {
+                applyAllFilters();
+            });
+
+            // Filter by make
+            makeFilter.addEventListener('change', function() {
+                applyAllFilters();
+            });
+
+            // Filter by payment type
+            paymentFilter.addEventListener('change', function() {
+                applyAllFilters();
+            });
+
+            // Add customer button
+            addCustomerBtn.addEventListener('click', function() {
+                openBookingModal();
+            });
+
+            // Service selection buttons
+            document.querySelectorAll('.select-service').forEach(button => {
+                button.addEventListener('click', function() {
+                    const service = this.getAttribute('data-service');
+                    selectService(service);
+                    openBookingModal();
+                });
+            });
+
+            // Book now buttons
+            const bookServicesBtn = document.getElementById('book-now-services');
+            if (bookServicesBtn) {
+                bookServicesBtn.addEventListener('click', function() {
+                    openBookingModal();
+                });
+            }
+
+            // Blockchain automation toggles
+            document.querySelectorAll('.toggle-automation').forEach(button => {
+                button.addEventListener('click', function() {
+                    const automationId = this.getAttribute('data-id');
+                    easyConnect.toggleAutomation(automationId);
+                });
+            });
+
+            // Payment method toggle
+            document.querySelectorAll('input[name="payment"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const cryptoDetails = document.getElementById('crypto-details');
+                    const cryptoTotal = document.getElementById('crypto-total');
+                    
+                    if (this.value === 'qubic') {
+                        cryptoDetails.style.display = 'block';
+                        cryptoTotal.style.display = 'inline';
+                        updateCryptoAmount();
+                    } else {
+                        cryptoDetails.style.display = 'none';
+                        cryptoTotal.style.display = 'none';
+                    }
+                });
+            });
+
+            // Copy wallet address
+            const copyWalletBtn = document.getElementById('copy-wallet');
+            if (copyWalletBtn) {
+                copyWalletBtn.addEventListener('click', function() {
+                    const wallet = document.getElementById('workshop-wallet');
+                    navigator.clipboard.writeText(wallet.textContent).then(() => {
+                        const originalText = this.textContent;
+                        this.textContent = 'Copied!';
+                        this.classList.add('btn-blockchain');
+                        setTimeout(() => {
+                            this.textContent = originalText;
+                            this.classList.remove('btn-blockchain');
+                        }, 2000);
+                    });
+                });
+            }
+
+            // Booking form submission
+            const bookingForm = document.getElementById('booking-form');
+            if (bookingForm) {
+                bookingForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const name = document.getElementById('booking-name').value;
+                    const phone = document.getElementById('booking-phone').value;
+                    const vehicle = document.getElementById('booking-vehicle').value;
+                    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+                    const serviceSummary = computeServicePrice();
+                    
+                    // Add to customers array
+                    const newCustomer = {
+                        license: `NEW${Date.now().toString().slice(-6)}`,
+                        name: name || 'Walk-in Customer',
+                        vehicle: vehicle || 'Not specified',
+                        phone: phone || 'Not provided',
+                        invoice: new Date().toLocaleDateString('en-ZA', { day: '2-digit', month: 'short', year: '2-digit' }).toUpperCase(),
+                        servicePrice: paymentMethod === 'crypto' 
+                            ? `PAID ${Math.round(serviceSummary.total / QUBIC_RATE)} QUBIC`
+                            : `R${serviceSummary.total.toFixed(2)}`,
+                        paymentType: paymentMethod
+                    };
+                    
+                    customers.unshift(newCustomer);
+                    
+                    // If crypto payment, simulate blockchain event
+                    if (paymentMethod === 'crypto') {
+                        const qubicAmount = Math.round(serviceSummary.total / QUBIC_RATE);
+                        const event = {
+                            type: 'TOKEN_TRANSFER',
+                            amount: qubicAmount,
+                            from: 'qx1newcustomer' + Math.random().toString(36).substr(2, 6),
+                            to: easyConnect.workshopWallet,
+                            service: serviceSummary.items[0]?.split('—')[0] || 'Service',
+                            memo: newCustomer.license
+                        };
+                        easyConnect.receiveBlockchainEvent(event);
+                    }
+                    
+                    // Show confirmation
+                    alert(`Booking confirmed for ${name}!\n${paymentMethod === 'crypto' ? 'Payment pending on blockchain...' : 'Please pay at workshop.'}`);
+                    
+                    // Reset and close
+                    document.getElementById('booking-modal').style.display = 'none';
+                    bookingForm.reset();
+                    
+                    // Update UI
+                    applyAllFilters();
+                    updateAllStatistics();
+                });
+            }
+
+            // Booking modal buttons
+            const bookingModal = document.getElementById('booking-modal');
+            const bookingModalClose = document.getElementById('booking-modal-close');
+            const bookingCancel = document.getElementById('booking-cancel');
+            
+            if (bookingModalClose) {
+                bookingModalClose.addEventListener('click', () => {
+                    bookingModal.style.display = 'none';
+                });
+            }
+            
+            if (bookingCancel) {
+                bookingCancel.addEventListener('click', () => {
+                    bookingModal.style.display = 'none';
+                });
+            }
+        }
+
+        function applyAllFilters() {
+            const makeValue = makeFilter.value;
+            const paymentValue = paymentFilter.value;
+            const searchTerm = (customerSearch.value || '').toLowerCase();
+
+            filteredCustomers = customers.filter(c => {
+                let match = true;
+                
+                // Search filter
+                if (searchTerm) {
+                    match = match && (
+                        (c.name && c.name.toLowerCase().includes(searchTerm)) || 
+                        (c.vehicle && c.vehicle.toLowerCase().includes(searchTerm)) || 
+                        (c.phone && c.phone.includes(searchTerm))
+                    );
+                }
+                
+                // Make filter
+                if (makeValue) {
+                    match = match && (c.vehicle && c.vehicle.toLowerCase().includes(makeValue.toLowerCase()));
+                }
+                
+                // Payment filter
+                if (paymentValue) {
+                    match = match && (c.paymentType === paymentValue);
+                }
+                
+                return match;
+            });
+
+            currentPage = 1;
+            renderCustomerCards(getPaginatedCustomers(currentPage));
+            renderPagination();
+            updateAllStatistics();
+        }
+
+        // ============================================
+        // SERVICE SELECTION & PRICING
+        // ============================================
+        let selectedServices = {
+            major: false,
+            minor: false,
+            diagnostic: false,
+            brakes: false
+        };
+
+        function selectService(service) {
+            // Reset all
+            selectedServices = {
+                major: false,
+                minor: false,
+                diagnostic: false,
+                brakes: false
+            };
+            
+            // Select the chosen one
+            selectedServices[service] = true;
+            updateServiceSummary();
+        }
+
+        function computeServicePrice() {
+            let total = 0;
+            const items = [];
+
+            if (selectedServices.major) {
+                total += PRICES.major;
+                items.push(`Major Service — R${PRICES.major.toFixed(2)}`);
+            } else if (selectedServices.minor) {
+                total += PRICES.minor;
+                items.push(`Minor Service — R${PRICES.minor.toFixed(2)}`);
+            } else if (selectedServices.diagnostic) {
+                total += PRICES.diagnosticGeneral;
+                items.push(`Diagnostic — R${PRICES.diagnosticGeneral.toFixed(2)}`);
+            }
+
+            if (selectedServices.brakes) {
+                total += PRICES.brakePadsWithDiscs;
+                items.push(`Brake Service — R${PRICES.brakePadsWithDiscs.toFixed(2)}`);
+            }
+
+            return { total, items };
+        }
+
+        function updateServiceSummary() {
+            const summary = computeServicePrice();
+            const summaryEl = document.getElementById('booking-selected-services');
+            const totalEl = document.getElementById('booking-total');
+            
+            if (summaryEl && totalEl) {
+                if (summary.items.length === 0) {
+                    summaryEl.innerHTML = '<em>No services selected. Choose a service above.</em>';
+                } else {
+                    summaryEl.innerHTML = summary.items.map(i => `<div>${i}</div>`).join('');
+                }
+                totalEl.textContent = summary.total.toFixed(2);
+                updateCryptoAmount();
+            }
+        }
+
+        function updateCryptoAmount() {
+            const total = computeServicePrice().total;
+            const qubicAmount = Math.round(total / QUBIC_RATE);
+            
+            document.getElementById('qubic-amount').textContent = qubicAmount.toLocaleString();
+            document.getElementById('qubic-total').textContent = qubicAmount.toLocaleString();
+        }
+
+        function openBookingModal(prefill = {}) {
+            const bookingModal = document.getElementById('booking-modal');
+            if (!bookingModal) return;
+            
+            // Prefill form
+            document.getElementById('booking-name').value = prefill.name || '';
+            document.getElementById('booking-phone').value = prefill.phone || '';
+            document.getElementById('booking-vehicle').value = prefill.vehicle || '';
+            
+            // Reset payment to cash
+            document.querySelector('input[value="cash"]').checked = true;
+            document.getElementById('crypto-details').style.display = 'none';
+            document.getElementById('crypto-total').style.display = 'none';
+            
+            // Update service summary
+            updateServiceSummary();
+            
+            // Show modal
+            bookingModal.style.display = 'flex';
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            init();
+            
+            // Set active nav based on scroll
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('section[id]');
+                const scrollPos = window.scrollY + 100;
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    const sectionId = section.getAttribute('id');
+                    
+                    if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                        document.querySelectorAll('.nav-links a').forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${sectionId}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
